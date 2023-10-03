@@ -1,20 +1,43 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title> Produtos </ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-item lines="nome" *ngIf="listaProdutos.length === 0">
+    <ion-label>Nenhum registro encontrado...</ion-label>
+  </ion-item>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div class="center">
+    <ion-thumbnail lines="none" *ngIf="listaProdutos.length === 0">
+      <img src="assets/img/semresultados.png" />
+    </ion-thumbnail>
   </div>
+
+
+  <ion-item-sliding *ngFor="let prod of listaProdutos">
+    <ion-item lines="full">
+      <ion-label>{{prod.nome}}</ion-label>
+      <ion-label slot="end">
+        {{prod.valor | currency:'BRL':'R$ '}}
+      </ion-label>
+    </ion-item>
+    <ion-item-options side="end">
+      <ion-item-option
+        color="warning"
+        routerLink="/produtos/alterar-produto/{{prod.id}}"
+      >
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-item-option>
+      <ion-item-option color="danger" (click)="deletarProduto(prod.id)">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/produtos/cadastro-produto">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
